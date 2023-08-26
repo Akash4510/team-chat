@@ -3,8 +3,9 @@ import type { Metadata } from 'next';
 import { Quicksand } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 
-import { ThemeProvider } from '@/providers/theme-provider';
 import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@/providers/theme-provider';
+import { ModalProvider } from '@/providers/modal-provider';
 
 const font = Quicksand({ subsets: ['latin'] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="discord-clone-theme"
           >
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </body>
