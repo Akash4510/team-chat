@@ -12,7 +12,7 @@ datasource db {
 
 model Profile {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String @db.ObjectId
+  userId      String @unique
   name        String
   imageUrl    String @db.String
   email       String
