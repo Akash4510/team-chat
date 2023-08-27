@@ -5,13 +5,14 @@ import axios from 'axios';
 import qs from 'query-string';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Plus } from 'lucide-react';
+import { Plus, SendHorizonal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { EmojiPicker } from '@/components/emoji-picker';
 import { useModal } from '@/hooks/use-modal-store';
+import { cn } from '@/lib/utils';
 
 interface ChatInputProps {
   apiUrl: string;
@@ -46,6 +47,7 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
 
       await axios.post(url, values);
       form.reset();
+      form.setFocus('content');
       router.refresh();
     } catch (error) {
       console.log(error);
@@ -61,7 +63,7 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className="relative p-4 pb-6">
+                <div className="relative p-4 pb-6 flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => openModal('messageFile', { apiUrl, query })}
@@ -77,13 +79,27 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     }`}
                     {...field}
                   />
-                  <div className="absolute top-7 right-8">
+                  <button
+                    type="button"
+                    disabled={isLoading}
+                    className="absolute top-7 right-[4.75rem] disabled:cursor-not-allowed"
+                  >
                     <EmojiPicker
                       onChange={(emoji: string) =>
                         field.onChange(`${field.value}${emoji}`)
                       }
                     />
-                  </div>
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={cn(
+                      'relative h-10 w-10 bg-zinc-500 dark:bg-zinc-400 transition rounded-full p-2 flex items-center justify-center disabled:cursor-not-allowed',
+                      !isLoading && 'hover:bg-zinc-600 dark:hover:bg-zinc-300'
+                    )}
+                  >
+                    <SendHorizonal className="text-white dark:text-[#313338]" />
+                  </button>
                 </div>
               </FormControl>
             </FormItem>
