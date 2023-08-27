@@ -82,7 +82,7 @@ const MessageFileModal = () => {
             Add an attachment
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            Send a file as a message.
+            Send an image or a pdf file as a message.
           </DialogDescription>
         </DialogHeader>
 
@@ -100,6 +100,7 @@ const MessageFileModal = () => {
                           endpoint="messageFile"
                           value={field.value}
                           onChange={field.onChange}
+                          isAttachmentMessage
                         />
                       </FormControl>
                     </FormItem>

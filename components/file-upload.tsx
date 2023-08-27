@@ -9,25 +9,55 @@ interface FileUploadProps {
   endpoint: 'messageFile' | 'serverImage';
   value: string;
   onChange: (url?: string) => void;
+  isAttachmentMessage?: boolean;
 }
 
-const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
+const FileUpload = ({
+  endpoint,
+  value,
+  onChange,
+  isAttachmentMessage = false,
+}: FileUploadProps) => {
   const fileType = value?.split('.').pop();
 
   if (value && fileType !== 'pdf') {
     return (
       <div className="w-full flex items-center justify-center">
-        <div className="relative h-20 w-20">
-          <Image src={value} alt="Server image" fill className="rounded-full" />
+        {isAttachmentMessage ? (
+          <div className="relative h-[200px] w-full">
+            <Image
+              src={value}
+              alt="Image message"
+              fill
+              className="rounded-md object-contain"
+            />
 
-          <button
-            onClick={() => onChange('')}
-            className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
-            type="button"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
+            <button
+              onClick={() => onChange('')}
+              className="bg-rose-500 text-white p-1 rounded-full absolute -top-2 -right-2 shadow-sm"
+              type="button"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <div className="relative h-20 w-20">
+            <Image
+              src={value}
+              alt="Server image"
+              fill
+              className="rounded-full"
+            />
+
+            <button
+              onClick={() => onChange('')}
+              className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
+              type="button"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </div>
     );
   }
