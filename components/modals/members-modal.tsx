@@ -140,7 +140,7 @@ const MembersModal = () => {
                                 onClick={() => onRoleChange(member.id, 'GUEST')}
                               >
                                 <Shield className="h-4 w-4 mr-2" />
-                                Guest
+                                <span className="mr-2">Guest</span>
                                 {member.role === 'GUEST' && (
                                   <Check className="h-4 w-4 ml-auto" />
                                 )}
@@ -151,7 +151,7 @@ const MembersModal = () => {
                                 }
                               >
                                 <ShieldCheck className="h-4 w-4 mr-2" />
-                                Moderator
+                                <span className="mr-2">Moderator</span>
                                 {member.role === 'MODERATOR' && (
                                   <Check className="h-4 w-4 ml-auto" />
                                 )}
