@@ -75,9 +75,10 @@ const InitialModal = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Customize your srever
+            Create a server
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
+            Create a server to get started. <br />
             Give your server a personality with a name and an image. You can
             always change it later.
           </DialogDescription>
@@ -99,6 +100,7 @@ const InitialModal = () => {
                           onChange={field.onChange}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
