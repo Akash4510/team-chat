@@ -22,7 +22,7 @@ interface ChatInputProps {
 }
 
 const formSchema = z.object({
-  content: z.string().min(1),
+  messsage: z.string().min(1),
 });
 
 const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
@@ -32,7 +32,7 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: '',
+      messsage: '',
     },
   });
 
@@ -45,10 +45,18 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
         query,
       });
 
-      await axios.post(url, values);
+      const trimmedMessage = values.messsage.trim();
+      if (!trimmedMessage) {
+        return;
+      }
+
       form.reset();
-      form.setFocus('content');
+      await axios.post(url, {
+        content: trimmedMessage,
+      });
+
       router.refresh();
+      form.setFocus('messsage');
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +67,7 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="content"
+          name="messsage"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -72,7 +80,7 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     <Plus className="text-white dark:text-[#313338]" />
                   </button>
                   <Input
-                    disabled={isLoading}
+                    autoComplete="off"
                     className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                     placeholder={`Message ${
                       type === 'conversation' ? name : '#' + name
@@ -92,6 +100,7 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                   </button>
                   <button
                     type="submit"
+                    onClick={() => form.setFocus('messsage')}
                     disabled={isLoading}
                     className={cn(
                       'relative h-10 w-10 bg-zinc-500 dark:bg-zinc-400 transition rounded-full p-2 flex items-center justify-center disabled:cursor-not-allowed',
