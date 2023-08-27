@@ -6,6 +6,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { ModalProvider } from '@/providers/modal-provider';
+import { SocketProvider } from '@/providers/socket-provider';
 
 const font = Quicksand({ subsets: ['latin'] });
 
@@ -29,8 +30,10 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="discord-clone-theme"
           >
-            <ModalProvider />
-            {children}
+            <SocketProvider>
+              <ModalProvider />
+              {children}
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>
