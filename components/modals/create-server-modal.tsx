@@ -37,7 +37,7 @@ const formSchema = z.object({
 });
 
 const CreateServerModal = () => {
-  const { isOpen, closeModal, type } = useModal();
+  const { isOpen, openModal, closeModal, type } = useModal();
   const router = useRouter();
 
   const isModalOpen = isOpen && type === 'createServer';
@@ -67,6 +67,12 @@ const CreateServerModal = () => {
   const handleClose = () => {
     form.reset();
     closeModal();
+  };
+
+  const openJoinServerModal = () => {
+    form.reset();
+    closeModal();
+    openModal('joinServer');
   };
 
   return (
@@ -125,9 +131,26 @@ const CreateServerModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button variant="primary" disabled={isLoading}>
-                Create
-              </Button>
+              <div className="w-full flex items-center justify-between gap-2">
+                <div>
+                  <span className="text-sm text-zinc-500 dark:text-secondary/70">
+                    Have an invite already?
+                    <br className="hidden max-[550px]:block" />
+                    <Button
+                      type="button"
+                      variant="link"
+                      size="sm"
+                      className="font-bold underline text-zinc-500 dark:text-secondary/70 px-0 py-2 h-5 min-[550px]:ml-2"
+                      onClick={openJoinServerModal}
+                    >
+                      Join a server
+                    </Button>
+                  </span>
+                </div>
+                <Button variant="primary" disabled={isLoading}>
+                  Create
+                </Button>
+              </div>
             </DialogFooter>
           </form>
         </Form>
