@@ -10,10 +10,15 @@ interface MediaRoomProps {
   chatId: string;
   video: boolean;
   audio: boolean;
-  onDisconnect: () => void;
+  onDisconnect?: () => void;
 }
 
-const MediaRoom = ({ chatId, video, audio, onDisconnect }: MediaRoomProps) => {
+const MediaRoom = ({
+  chatId,
+  video,
+  audio,
+  onDisconnect = () => {},
+}: MediaRoomProps) => {
   const { user } = useUser();
   const [token, setToken] = useState('');
 
