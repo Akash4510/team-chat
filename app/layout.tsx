@@ -12,8 +12,8 @@ import { QueryProvider } from '@/providers/query-provider';
 const font = Quicksand({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Discord Clone',
-  description: 'Discord clone using Next Js',
+  title: 'Team Chat',
+  description: 'Team Chat is the ultimate place to hangout online',
 };
 
 export default function RootLayout({
