@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import qs from 'query-string';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -83,13 +83,29 @@ const CreateChannelModal = () => {
           serverId: params?.serverId,
         },
       });
-      await axios.post(url, values);
 
+      // Remove any extra spaces from the channel name
+      values.name = values.name.trim();
+      const response = await axios.post(url, values);
+
+      router.refresh();
+      router.push(
+        `/servers/${params?.serverId}/channels/${response.data.newChannel?.id}`
+      );
       form.reset();
       closeModal();
-      router.refresh();
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        const err = error as AxiosError;
+
+        // If the channel name already exists on the server, we get a 409 from the server, so we show an error message below the channel name field
+        if (err.response?.status === 409) {
+          form.setError('name', {
+            message: error.response?.data,
+          });
+        }
+      }
     }
   };
 

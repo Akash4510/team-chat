@@ -24,6 +24,21 @@ export async function POST(req: Request) {
       return new NextResponse("Name cannot be 'general'", { status: 400 });
     }
 
+    // Check if channel name is already taken
+    const channel = await db.channel.findFirst({
+      where: {
+        serverId,
+        name,
+      },
+    });
+
+    if (channel) {
+      return new NextResponse(
+        `Channel '${name}' already exists, please select a different name`,
+        { status: 409 }
+      );
+    }
+
     const server = await db.server.update({
       where: {
         id: serverId,
@@ -47,7 +62,17 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(server);
+    const newChannel = await db.channel.findFirst({
+      where: {
+        serverId,
+        name,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return NextResponse.json({ ...server, newChannel });
   } catch (error) {
     console.log('[CHANNELS_POST]', error);
     return new NextResponse('Internal Error', { status: 500 });
