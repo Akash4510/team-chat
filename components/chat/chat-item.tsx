@@ -6,7 +6,14 @@ import qs from 'query-string';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Member, MemberRole, Profile } from '@prisma/client';
-import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from 'lucide-react';
+import {
+  Edit,
+  FileIcon,
+  Loader2,
+  ShieldAlert,
+  ShieldCheck,
+  Trash,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
@@ -30,6 +37,7 @@ interface ChatItemProps {
   deleted: boolean;
   currentMember: Member;
   isUpdated: boolean;
+  updatedAt?: string;
   socketUrl: string;
   socketQuery: Record<string, string>;
 }
@@ -53,6 +61,7 @@ const ChatItem = ({
   deleted,
   currentMember,
   isUpdated,
+  updatedAt,
   socketUrl,
   socketQuery,
 }: ChatItemProps) => {
@@ -187,7 +196,7 @@ const ChatItem = ({
               {content}
               {isUpdated && !deleted && (
                 <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
-                  (edited)
+                  (edited {updatedAt})
                 </span>
               )}
             </p>
@@ -217,7 +226,11 @@ const ChatItem = ({
                   )}
                 />
                 <Button disabled={isLoading} size="sm" variant="primary">
-                  Save
+                  {!isLoading ? (
+                    <p>Save</p>
+                  ) : (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  )}
                 </Button>
               </form>
               <span className="text-[10px] mt-1 text-zinc-400">
