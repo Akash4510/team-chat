@@ -7,7 +7,7 @@ import { db } from '@/lib/db';
 import ChatHeader from '@/components/chat/chat-header';
 import ChatInput from '@/components/chat/chat-input';
 import ChatMessages from '@/components/chat/chat-messages';
-import MediaRoom from '@/components/media-room';
+import JoinMediaChannel from '@/components/join-media-channel';
 
 interface ChannelIdPageProps {
   params: {
@@ -74,11 +74,10 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
           />
         </>
       )}
-      {channel.type === ChannelType.AUDIO && (
-        <MediaRoom chatId={channel.id} audio={true} video={false} />
-      )}
-      {channel.type === ChannelType.VIDEO && (
-        <MediaRoom chatId={channel.id} audio={true} video={true} />
+
+      {/* For audio and video channels */}
+      {channel.type !== ChannelType.TEXT && (
+        <JoinMediaChannel channel={channel} />
       )}
     </div>
   );
