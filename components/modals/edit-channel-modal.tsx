@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import qs from 'query-string';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ChannelType } from '@prisma/client';
+import { Loader2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -34,7 +36,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useModal } from '@/hooks/use-modal-store';
-import { useEffect } from 'react';
 
 const formSchema = z.object({
   name: z
@@ -169,7 +170,11 @@ const EditChannelModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Save
+                {!isLoading ? (
+                  <p>Save</p>
+                ) : (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                )}
               </Button>
             </DialogFooter>
           </form>

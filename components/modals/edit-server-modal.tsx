@@ -6,6 +6,7 @@ import axios from 'axios';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -135,7 +136,11 @@ const EditServerModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Save
+                {!isLoading ? (
+                  <p>Save</p>
+                ) : (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                )}
               </Button>
             </DialogFooter>
           </form>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { Loader2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -65,7 +66,11 @@ const LeaveServerModal = () => {
               variant="primary"
               onClick={onLeaveServer}
             >
-              Confirm
+              {!isLoading ? (
+                <p>Confirm</p>
+              ) : (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              )}
             </Button>
           </div>
         </DialogFooter>

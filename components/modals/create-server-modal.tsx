@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -148,7 +149,11 @@ const CreateServerModal = () => {
                   </span>
                 </div>
                 <Button variant="primary" disabled={isLoading}>
-                  Create
+                  {!isLoading ? (
+                    <p>Create</p>
+                  ) : (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  )}
                 </Button>
               </div>
             </DialogFooter>

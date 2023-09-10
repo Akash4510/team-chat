@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import qs from 'query-string';
+import { Loader2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -73,7 +74,11 @@ const DeleteChannelModal = () => {
               variant="primary"
               onClick={deleteChannel}
             >
-              Confirm
+              {!isLoading ? (
+                <p>Confirm</p>
+              ) : (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              )}
             </Button>
           </div>
         </DialogFooter>

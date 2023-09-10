@@ -6,6 +6,7 @@ import qs from 'query-string';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -15,15 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import FileUpload from '@/components/file-upload';
 import { useModal } from '@/hooks/use-modal-store';
@@ -110,7 +103,11 @@ const MessageFileModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Send
+                {!isLoading ? (
+                  <p>Send</p>
+                ) : (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                )}
               </Button>
             </DialogFooter>
           </form>
